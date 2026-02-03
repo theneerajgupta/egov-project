@@ -1,10 +1,7 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
+import { GrievnacesController } from '../controllers';
 
 const router = Router();
-
-router.get('/', (_req, res) => {
-  res.status(200).send('you have reached the grievances endpoint');
-});
 
 export default router;
