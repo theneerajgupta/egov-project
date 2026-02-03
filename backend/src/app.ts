@@ -15,6 +15,8 @@ import errorHandler from './middlewares/error.middleware';
 
 const app = express();
 
+import { databasePool } from './db/pool';
+
 /* ---------- global middleware ---------- */
 app.use(cors());
 app.use(morgan('dev'));
@@ -28,6 +30,13 @@ app.use('/grievances', GrievancesRouter);
 app.use('/crisis', CrisisRouter);
 app.use('/mti', MTIRouter);
 app.use('/rpsl', RPSLRouter);
+
+app.get('/', async (req, res) => {
+  const [rows] = await databasePool.query('SELECT id, title FROM app_db.books');
+  console.log(rows);
+  await databasePool.end();
+  res.status(200).send();
+});
 
 /* ---------- fallback ---------- */
 app.use((_req, res) => {

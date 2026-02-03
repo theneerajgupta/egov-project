@@ -34,8 +34,15 @@ services:
       - /app/node_modules
 
     environment:
-      - NODE_ENV=development
-      - PORT=8000
+      NODE_ENV: development
+      PORT: 8000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: egov_db
+      DB_egov: egov_user
+      DB_PASSWORD: Password!123
+      DB_DIALECT: mysql
+      DB_SSL: true
 
     command: npm run dev
 
