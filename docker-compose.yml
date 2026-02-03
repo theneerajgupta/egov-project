@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   frontend:
     container_name: frontend
@@ -18,7 +16,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     
-    command: npm run dev -- --host 
+    command: npm run dev -- --host
 
   
   backend:
@@ -40,3 +38,39 @@ services:
       - PORT=8000
 
     command: npm run dev
+
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+
+    environment:
+      # Root user (DB admin only, never for app code)
+      MYSQL_ROOT_PASSWORD: StrongPassword!123
+
+      # Application database
+      MYSQL_DATABASE: egov_db
+
+      # Application user (what your backend will use)
+      MYSQL_USER: egov_user
+      MYSQL_PASSWORD: Password!123
+
+    ports:
+      # Expose MySQL for local development / DB tools
+      - "3306:3306"
+
+    volumes:
+      # Persistent database storage
+      - egov_mysql_data:/var/lib/mysql
+
+    command:
+      # Proper Unicode support (important for names, regions, etc.)
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+
+volumes:
+  egov_mysql_data:

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export function errorHandler(
+function errorHandler(
   err: Error,
   _req: Request,
   res: Response,
@@ -12,3 +12,5 @@ export function errorHandler(
     message: err.message || 'Internal Server Error',
   });
 }
+
+export default errorHandler;
