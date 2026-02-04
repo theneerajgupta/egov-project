@@ -32,10 +32,10 @@ app.use('/mti', MTIRouter);
 app.use('/rpsl', RPSLRouter);
 
 app.get('/', async (req, res) => {
-  const [rows] = await databasePool.query('SELECT id, title FROM app_db.books');
+  const [rows] = await databasePool.query('SELECT * FROM egov_db.user');
   console.log(rows);
   await databasePool.end();
-  res.status(200).send();
+  res.status(200).json(rows);
 });
 
 /* ---------- fallback ---------- */

@@ -6,7 +6,7 @@ export async function shutdownDatabase(): Promise<void> {
   if (shuttingDown) return;
   shuttingDown = true;
 
-  console.log('[ server ] closing database pool...');
+  console.log('[ database ] closing database pool...');
   await databasePool.end();
-  console.log('[ server ] database pool closed.');
+  console.log('[ database ] database pool closed.');
 }
