@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 
@@ -11,7 +11,7 @@ import {
   RPSLRouter,
 } from './routers';
 
-import errorHandler from './middlewares/error.middleware';
+import { errorHandler, AppError } from './middlewares/error.middleware';
 
 const app = express();
 
@@ -19,7 +19,7 @@ import { databasePool } from './db/pool';
 
 /* ---------- global middleware ---------- */
 app.use(cors());
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -39,10 +39,8 @@ app.get('/', async (req, res) => {
 });
 
 /* ---------- fallback ---------- */
-app.use((_req, res) => {
-  res.status(404).json({
-    message: 'Route not found',
-  });
+app.use((_req: Request, _res: Response, next: NextFunction) => {
+  next(new AppError('Route not found', 404));
 });
 
 /* ---------- error handler ---------- */
