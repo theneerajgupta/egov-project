@@ -9,6 +9,18 @@ import {
 import { findUserTypeByName } from '../db/repositories/userType.repositories';
 import { createAuthCredentials } from '../db/repositories/authCredentials.repositories';
 
+/**
+ * * RegisterUser
+ * * > check if userExists
+ * * > verify user type
+ * * > hash password
+ * * > create a connection (to initiate a transaction)
+ * * ---- begin transaction
+ * * ---- createUser (query)
+ * * ---- createAuthCredential (query)
+ * * ---- success / rollback
+ */
+
 export async function registerUser(input: RegisterRequestType) {
   // 1. Enforce email uniqueness
   const existingUser = await findUserByEmail(input.email);
