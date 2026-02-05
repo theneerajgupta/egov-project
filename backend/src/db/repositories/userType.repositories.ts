@@ -2,23 +2,20 @@
 import { RowDataPacket } from 'mysql2';
 import { databasePool } from '../pool';
 
-export interface UserTypeRow extends RowDataPacket {
+interface UserTypeRow extends RowDataPacket {
   id: number;
   name: string;
 }
 
 export async function findUserTypeByName(
-  name: string,
+  user_type: string,
 ): Promise<UserTypeRow | null> {
-  const [rows] = await databasePool.query<UserTypeRow[]>(
-    `
-    SELECT id, name
-    FROM user_type
-    WHERE name = ?
+  const sql = `
+    SELECT ut.id, ut.name
+    FROM user_type ut
+    WHERE ut.name = ?
     LIMIT 1
-    `,
-    [name],
-  );
-
+  `;
+  const [rows] = await databasePool.execute<UserTypeRow[]>(sql, [user_type]);
   return rows[0] ?? null;
 }

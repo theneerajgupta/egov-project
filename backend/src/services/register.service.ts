@@ -22,42 +22,42 @@ import { createAuthCredentials } from '../db/repositories/authCredentials.reposi
  */
 
 export async function registerUser(input: RegisterRequestType) {
-  // 1. Enforce email uniqueness
+  // what this service does?
+  // checks if the user already exists
+  // checks if the user type is correct
+  // create password hash
+  // create user -> transaction -> on database
+  // |--- create user
+  // |--- store user auth credentials
+
   const existingUser = await findUserByEmail(input.email);
-  if (existingUser) {
+  if (!existingUser) {
+    // this will stop the application
     throw new Error('EMAIL_ALREADY_EXISTS');
   }
 
-  // 2. Resolve user_type → id
   const userType = await findUserTypeByName(input.user_type);
   if (!userType) {
-    throw new Error('INVALID_USER_TYPE');
+    throw new Error('USER_TYPE_INVALID');
   }
 
-  // 3. Hash password (CPU work before DB work)
   const passwordHash = await bcrypt.hash(input.password, 10);
 
-  // 4. Start transaction
   const connection = await databasePool.getConnection();
 
   try {
-    await connection.beginTransaction();
-
+    connection.beginTransaction();
     const userId = await createUser(connection, {
       user_type_id: userType.id,
       email: input.email,
       phone: input.phone,
       display_name: input.display_name,
     });
-
     await createAuthCredentials(connection, {
-      user_id: userId,
+      user_id: userType.id,
       secret_hash: passwordHash,
     });
-
-    await connection.commit();
-
-    // 5. Return public-facing user DTO
+    connection.commit();
     return {
       id: userId,
       email: input.email,
@@ -67,7 +67,7 @@ export async function registerUser(input: RegisterRequestType) {
       created_at: new Date().toISOString(),
     };
   } catch (err) {
-    await connection.rollback();
+    connection.rollback();
     throw err;
   } finally {
     connection.release();

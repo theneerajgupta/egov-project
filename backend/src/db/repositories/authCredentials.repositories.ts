@@ -3,16 +3,14 @@ import { PoolConnection } from 'mysql2/promise';
 
 export async function createAuthCredentials(
   connection: PoolConnection,
-  data: {
+  payload: {
     user_id: number;
     secret_hash: string;
   },
 ): Promise<void> {
-  await connection.query(
-    `
+  const sql = `
     INSERT INTO auth_credentials (user_id, secret_hash)
     VALUES (?, ?)
-    `,
-    [data.user_id, data.secret_hash],
-  );
+  `;
+  await connection.execute(sql, [payload.user_id, payload.secret_hash]);
 }

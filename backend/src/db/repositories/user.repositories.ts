@@ -1,52 +1,41 @@
-// src/db/repositories/user.repository.ts
-import { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { RowDataPacket, PoolConnection, ResultSetHeader } from 'mysql2/promise';
 import { databasePool } from '../pool';
 
-/**
- * Row shape for SELECT queries on `user`
- */
 interface UserIdRow extends RowDataPacket {
   id: number;
 }
 
-/**
- * Find a user by email (read-only, no transaction)
- */
 export async function findUserByEmail(
   email: string,
 ): Promise<UserIdRow | null> {
-  const [rows] = await databasePool.query<UserIdRow[]>(
-    `
-    SELECT id
-    FROM user
-    WHERE email = ?
+  const sql = `
+    SELECT u.id
+    FROM user AS u
+    WHERE u.email = ?
     LIMIT 1
-    `,
-    [email],
-  );
-
+  `;
+  const [rows] = await databasePool.execute<UserIdRow[]>(sql, [email]);
   return rows[0] ?? null;
 }
 
-/**
- * Create a user (must participate in a transaction)
- */
 export async function createUser(
   connection: PoolConnection,
-  data: {
+  payload: {
     user_type_id: number;
     email: string;
     phone?: string;
     display_name: string;
   },
 ): Promise<number> {
-  const [result] = await connection.query<ResultSetHeader>(
-    `
-    INSERT INTO user (user_type_id, email, phone, display_name)
+  const sql: string = `
+    INSERT INTO user (user_type_id, email, phone, display)
     VALUES (?, ?, ?, ?)
-    `,
-    [data.user_type_id, data.email, data.phone ?? null, data.display_name],
-  );
-
+  `;
+  const [result] = await connection.execute<ResultSetHeader>(sql, [
+    payload.user_type_id,
+    payload.email,
+    payload.phone ?? null,
+    payload.display_name,
+  ]);
   return result.insertId;
 }
