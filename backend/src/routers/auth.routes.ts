@@ -1,17 +1,11 @@
 import { Router } from 'express';
 
 import { AuthController } from '../controllers';
-import { validateBody } from '../middlewares/validate.middleware';
-import { LoginRequestSchema, RegisterRequestSchema } from '../api/auth/schemas';
 
 const router = Router();
 
-router.post(
-  '/register',
-  validateBody(RegisterRequestSchema),
-  AuthController.register,
-);
-router.post('/login', validateBody(LoginRequestSchema), AuthController.login);
+router.post('/register', AuthController.register);
+router.post('/login', AuthController.login);
 router.post('/logout', AuthController.logout);
 router.get('/me', AuthController.me);
 router.post('/refresh', AuthController.refresh);
