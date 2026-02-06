@@ -88,3 +88,31 @@ so to recap
 
 This describes the minimum mental model required to reason about backend
 systems; everything else is an extension of these ideas.
+
+---
+
+# February 06, 2026 [ Ritviz ]
+
+Well, i guess we are doing this everyday. what the heck, lets get yapping.
+
+yesterday we explored the active practical implementation of the how apis are
+run. this involved the following
+
+- getting http request from postman
+  - setting headers: Content-Type: application/json
+  - setting body: raw -> {}
+- creating a schema to check input
+- attaching it to the route using a middleware
+- passing it to the controller
+- passing it to the service
+- checking before performing business logic
+- checking code available in repositories
+- repositories query the database to insert or fetch data
+- gather all data
+- all good -> process transaction
+
+get it?
+
+no?
+
+ok tag along, we will code along today...
