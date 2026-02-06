@@ -3,7 +3,7 @@ import { loginController } from './login.controller';
 import { logoutController } from './logout.controller';
 import { meController } from './me.controller';
 import { refreshController } from './refresh.controller';
-import { verifyEmailController } from './verifyEmail.controller';
+import { validateController } from './validate.controller';
 import { forgotPasswordController } from './forgotPassword.controller';
 import { resetPasswordController } from './resetPassword.controller';
 
@@ -13,7 +13,7 @@ export const AuthController = {
   logout: logoutController,
   me: meController,
   refresh: refreshController,
-  verifyEmail: verifyEmailController,
+  validate: validateController,
   forgotPassword: forgotPasswordController,
   resetPassword: resetPasswordController,
 };

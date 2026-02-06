@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-export async function verifyEmailController(
+export async function validateController(
   req: Request,
   res: Response,
   next: NextFunction,

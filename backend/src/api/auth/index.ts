@@ -5,4 +5,4 @@
 // export * from './schemas/refresh.schema';
 // export * from './schemas/register.schema';
 // export * from './schemas/resetPassword.schema';
-// export * from './schemas/verifyEmail.schema';
+// export * from './schemas/validate.schema';

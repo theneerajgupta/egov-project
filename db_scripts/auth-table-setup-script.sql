@@ -83,3 +83,106 @@ INSERT INTO egov_db.user_type (code, name) VALUES
 ('mti_rep', 'Maritime Training Institute Representative'),
 ('union_rep', 'Seafarer Union Representative'),
 ('shipping_company_rep', 'Shipping Company Representative');
+
+START TRANSACTION;
+
+-- Seed users
+INSERT INTO
+    egov_db.user (
+        user_type_id,
+        email,
+        phone,
+        display_name,
+        status
+    )
+VALUES (
+        1,
+        'admin1@egov.test',
+        '9000000001',
+        'Admin One',
+        'ACTIVE'
+    ),
+    (
+        2,
+        'dg1@egov.test',
+        '9000000002',
+        'DG One',
+        'ACTIVE'
+    ),
+    (
+        3,
+        'ddg1@egov.test',
+        '9000000003',
+        'DDG One',
+        'ACTIVE'
+    ),
+    (
+        4,
+        'adg1@egov.test',
+        '9000000004',
+        'ADG One',
+        'ACTIVE'
+    ),
+    (
+        5,
+        'nodal1@egov.test',
+        '9000000005',
+        'Nodal Officer One',
+        'ACTIVE'
+    ),
+    (
+        6,
+        'officer1@egov.test',
+        '9000000006',
+        'DG Officer One',
+        'ACTIVE'
+    ),
+    (
+        7,
+        'helpdesk1@egov.test',
+        '9000000007',
+        'Helpdesk One',
+        'ACTIVE'
+    ),
+    (
+        8,
+        'seafarer1@egov.test',
+        '9000000008',
+        'Seafarer One',
+        'ACTIVE'
+    ),
+    (
+        9,
+        'kin1@egov.test',
+        '9000000009',
+        'Next of Kin One',
+        'ACTIVE'
+    ),
+    (
+        10,
+        'rpsl1@egov.test',
+        '9000000010',
+        'RPSL Rep One',
+        'ACTIVE'
+    );
+
+-- Seed auth credentials for all users above
+INSERT INTO
+    egov_db.auth_credentials (user_id, secret_hash)
+SELECT id, '$2b$10$REPLACE_WITH_REAL_HASH'
+FROM egov_db.user
+WHERE
+    email IN (
+        'admin1@egov.test',
+        'dg1@egov.test',
+        'ddg1@egov.test',
+        'adg1@egov.test',
+        'nodal1@egov.test',
+        'officer1@egov.test',
+        'helpdesk1@egov.test',
+        'seafarer1@egov.test',
+        'kin1@egov.test',
+        'rpsl1@egov.test'
+    );
+
+COMMIT;

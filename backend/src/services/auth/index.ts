@@ -5,4 +5,4 @@
 // export * from './refresh.service'
 // export * from './register.service'
 // export * from './resetPassword.service'
-// export * from './verifyEmail.service'
+// export * from './validate.service'
