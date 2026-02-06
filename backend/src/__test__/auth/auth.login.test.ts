@@ -9,33 +9,34 @@ describe('========== [ AUTH / LOGIN ] ==========', () => {
         email: 'theneerajgupta@gmail.com',
         password: 'StrongPassword@!123',
       });
+
       expect(response.status).toBe(200);
     });
-  });
-  describe('POST /auth/login', () => {
+
     it('return 401 - invalid credentials', async () => {
       const response = await request(app).post('/auth/login').send({
         email: 'theneerajgupta@gmail.com',
-        password: 'StrongPassword@!124',
+        password: 'WrongPassword@!123',
       });
+
       expect(response.status).toBe(401);
     });
-  });
-  describe('POST /auth/login', () => {
+
     it('return 400 - missing credentials', async () => {
       const response = await request(app).post('/auth/login').send({
         email: 'theneerajgupta@gmail.com',
-        password: 'StrongPassword@!124',
+        // password missing
       });
+
       expect(response.status).toBe(400);
     });
-  });
-  describe('POST /auth/login', () => {
+
     it('return 403 - account disabled', async () => {
       const response = await request(app).post('/auth/login').send({
-        email: 'theneerajgupta@gmail.com',
+        email: 'disabled.user@example.com',
         password: 'StrongPassword@!123',
       });
+
       expect(response.status).toBe(403);
     });
   });

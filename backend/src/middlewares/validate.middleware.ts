@@ -1,6 +1,7 @@
 // src/api/middlewares/validate.ts
 import { Request, Response, NextFunction } from 'express';
-import { ZodType } from 'zod';
+import { ZodError, ZodType } from 'zod';
+import { BadRequestError } from './errors/client.error';
 
 export function validateBody<T>(schema: ZodType<T>) {
   return (req: Request, _res: Response, next: NextFunction) => {
@@ -9,6 +10,10 @@ export function validateBody<T>(schema: ZodType<T>) {
       req.body = parsed; // parsed === TOutput
       next();
     } catch (err) {
+      if (err instanceof ZodError) {
+        const message = err.message ?? 'invalid request body';
+        return next(new BadRequestError(message));
+      }
       next(err);
     }
   };

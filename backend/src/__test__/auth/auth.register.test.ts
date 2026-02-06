@@ -6,10 +6,11 @@ describe('========== [ AUTH / REGISTER ] ==========', () => {
   describe('POST /auth/register', () => {
     it('return 201 - valid registration', async () => {
       const response = await request(app).post('/auth/register').send({
-        email: 'newuser@example.com',
+        name: 'Neeraj Gupta',
+        email: 'theneerajgupta@gupta.com',
         password: 'StrongPassword@!123',
-        display_name: 'New User',
         phone: '9999999999',
+        user_type: 'dg_admin',
       });
 
       expect(response.status).toBe(201);
@@ -19,8 +20,10 @@ describe('========== [ AUTH / REGISTER ] ==========', () => {
   describe('POST /auth/register', () => {
     it('return 400 - missing required fields', async () => {
       const response = await request(app).post('/auth/register').send({
-        email: 'missingfields@example.com',
-        // password missing
+        name: 'Neeraj Gupta',
+        email: 'theneerajgupta@gupta.com',
+        password: 'StrongPassword@!123',
+        phone: '9999999999',
       });
 
       expect(response.status).toBe(400);
