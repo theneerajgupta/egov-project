@@ -8,7 +8,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "types": [
+      "node",
+      "jest"
+    ]
   },
   "include": [
     "src/**/*"
