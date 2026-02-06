@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const AuthCredentialsSchema = z.object({
+export const AuthSchema = z.object({
   id: z.number().int().positive(),
   user_id: z.number().int().positive(),
   secret_hash: z.string().min(1).max(255),
@@ -8,4 +8,4 @@ export const AuthCredentialsSchema = z.object({
   updated_at: z.date(),
 });
 
-export type AuthCredentialsType = z.infer<typeof AuthCredentialsSchema>;
+export type AuthType = z.infer<typeof AuthSchema>;

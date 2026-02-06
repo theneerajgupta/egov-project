@@ -16,13 +16,13 @@
 import { databasePool } from './pool';
 
 export async function assertDatabaseConnection(): Promise<void> {
+  const connection = await databasePool.getConnection();
   try {
-    const connection = await databasePool.getConnection();
     await connection.query('SELECT 1');
-    connection.release();
-
     console.log('[ database ] connection verified!');
   } catch (err) {
     console.error('[ database ] failed to connect');
+  } finally {
+    connection.release();
   }
 }

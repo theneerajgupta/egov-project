@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS egov_db.sessions;
 
 DROP TABLE IF EXISTS egov_db.login_logs;
 
-DROP TABLE IF EXISTS egov_db.auth_credentials;
+DROP TABLE IF EXISTS egov_db.auth;
 
 DROP TABLE IF EXISTS egov_db.user;
 
@@ -31,13 +31,13 @@ CREATE TABLE IF NOT EXISTS egov_db.user (
     UNIQUE (email)
 );
 
-CREATE TABLE IF NOT EXISTS egov_db.auth_credentials (
+CREATE TABLE IF NOT EXISTS egov_db.auth (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     secret_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_auth_credentials_user FOREIGN KEY (user_id) REFERENCES egov_db.user (id) ON DELETE CASCADE,
+    CONSTRAINT fk_auth_user FOREIGN KEY (user_id) REFERENCES egov_db.user (id) ON DELETE CASCADE,
     UNIQUE (user_id)
 );
 
@@ -168,7 +168,7 @@ VALUES (
 
 -- Seed auth credentials for all users above
 INSERT INTO
-    egov_db.auth_credentials (user_id, secret_hash)
+    egov_db.auth (user_id, secret_hash)
 SELECT id, '$2b$10$REPLACE_WITH_REAL_HASH'
 FROM egov_db.user
 WHERE
