@@ -11,7 +11,7 @@ export function validateBody<T>(schema: ZodType<T>) {
       next();
     } catch (err) {
       if (err instanceof ZodError) {
-        const message = err.message ?? 'invalid request body';
+        const message = err.issues[0].message ?? 'invalid request body';
         return next(new BadRequestError(message));
       }
       next(err);

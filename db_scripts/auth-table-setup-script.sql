@@ -1,3 +1,5 @@
+USE egov_db;
+
 DROP TABLE IF EXISTS egov_db.sessions;
 
 DROP TABLE IF EXISTS egov_db.login_logs;
