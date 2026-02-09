@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function App() {
   return (
-    <div className='w-screen h-screen p-4 flex justify-center items-center gap-4'>
+    <div className='flex justify-center items-center gap-4'>
       <Link to='/auth/login'>
         <button className='bg-amber-500 text-white py-2 px-4 rounded'>
           Go To Login
