@@ -7,7 +7,7 @@ import {
 } from '../../middlewares/errors/client.error';
 import bcrypt from 'bcrypt';
 
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 
 interface sqlUserRow extends RowDataPacket {
   id: number;
@@ -81,24 +81,24 @@ export async function registerController(
 
     await connection.commit();
 
-    const access_token = jwt.sign(
-      {
-        sub: userId,
-        email: req.body.email,
-        user_type: userType.code,
-      },
-      'f046e977c08dfd94e734136c95735a5aa67718871cae67e6ec7bc9924994f244be188504e8a91394b88258d5ff32d470f455f8718a529842a2d8a46655274fc5',
-      {
-        expiresIn: '15m',
-      },
-    );
+    // const access_token = jwt.sign(
+    //   {
+    //     sub: userId,
+    //     email: req.body.email,
+    //     user_type: userType.code,
+    //   },
+    //   'f046e977c08dfd94e734136c95735a5aa67718871cae67e6ec7bc9924994f244be188504e8a91394b88258d5ff32d470f455f8718a529842a2d8a46655274fc5',
+    //   {
+    //     expiresIn: '15m',
+    //   },
+    // );
 
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      maxAge: 15 * 60 * 1000,
-    });
+    // res.cookie('access_token', access_token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: 'strict',
+    //   maxAge: 15 * 60 * 1000,
+    // });
 
     // connection.commit();
     return res.status(200).json({
