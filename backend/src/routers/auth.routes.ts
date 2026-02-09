@@ -1,23 +1,12 @@
 import { Router } from 'express';
 
 import { AuthController } from '../controllers';
-import { validateBody } from '../middlewares/validate.middleware';
-import { RegisterRequestSchema } from '../api/auth/schemas/register.schema';
+import { validate } from '../middlewares/validate.middleware';
+import { RegisterReqSchema } from '../api/auth/schemas/register.schema';
 
 const router = Router();
 
-router.post(
-  '/register',
-  validateBody(RegisterRequestSchema),
-  AuthController.register,
-);
-
+router.post('/register', validate(RegisterReqSchema), AuthController.register);
 router.post('/login', AuthController.login);
-router.post('/logout', AuthController.logout);
-router.get('/me', AuthController.me);
-router.post('/refresh', AuthController.refresh);
-router.post('/validate', AuthController.validate);
-router.post('/forgot-password', AuthController.forgotPassword);
-router.post('/reset-password', AuthController.resetPassword);
 
 export default router;

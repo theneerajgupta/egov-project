@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const RegisterRequestSchema = z.object({
+export const RegisterReqSchema = z.object({
   name: z.string().min(1).max(200),
   email: z
     .email()
@@ -21,4 +21,4 @@ export const RegisterRequestSchema = z.object({
     ),
 });
 
-export type RegisterRequestType = z.infer<typeof RegisterRequestSchema>;
+export type RegisterReqType = z.infer<typeof RegisterReqSchema>;

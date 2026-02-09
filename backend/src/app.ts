@@ -2,20 +2,12 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 
-import {
-  HealthRouter,
-  AuthRouter,
-  GrievancesRouter,
-  CrisisRouter,
-  MTIRouter,
-  RPSLRouter,
-} from './routers';
-
 import { errorHandler, AppError } from './middlewares/error.middleware';
 
 const app = express();
 
 import { databasePool } from './db/pool';
+import { AuthRouter, HealthRouter } from './routers';
 
 /* ---------- global middleware ---------- */
 app.use(cors());
@@ -26,10 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 /* ---------- routes ---------- */
 app.use('/health', HealthRouter);
 app.use('/auth', AuthRouter);
-app.use('/grievances', GrievancesRouter);
-app.use('/crisis', CrisisRouter);
-app.use('/mti', MTIRouter);
-app.use('/rpsl', RPSLRouter);
+app.use('/api', (_req, res) => {
+  res.status(200).json({ message: 'api under development' });
+});
 
 app.get('/', async (req, res) => {
   const [rows] = await databasePool.query('SELECT * FROM egov_db.user');

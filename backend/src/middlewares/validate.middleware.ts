@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ZodError, ZodType } from 'zod';
 import { BadRequestError } from './errors/client.error';
 
-export function validateBody<T>(schema: ZodType<T>) {
+export function validate<T>(schema: ZodType<T>) {
   return (req: Request, _res: Response, next: NextFunction) => {
     try {
       const parsed = schema.parse(req.body);
