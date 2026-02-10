@@ -1,36 +1,55 @@
 services:
-  nextjs:
-    container_name: nextjs
-    restart: unless-stopped
+  frontend:
+    container_name: frontend
     
     build:
-      context: ./nextjs
+      context: ./frontend
       dockerfile: Dockerfile
-
+    
     ports:
-      - "3000:3000"
+      - "5173:5173"
 
     volumes:
-      - ./nextjs:/app
+      - ./frontend:/app
       - /app/node_modules
 
     environment:
+      - CHOKIDAR_USEPOLLING=true
+    
+    command: npm run dev -- --host
+
+  
+  backend:
+    container_name: backend
+    
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    ports: 
+      - "8000:8000"
+
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+    environment:
+      NODE_ENV: development
+      PORT: 8000
       DB_HOST: mysql
       DB_PORT: 3306
       DB_NAME: egov_db
-      DB_USER: egov_user
+      DB_egov: egov_user
       DB_PASSWORD: Password!123
       DB_DIALECT: mysql
-
+      DB_SSL: true
       JWT_ACCESS_SECRET: f06b35a706639430fe4bcafae3ac880cf354e6e7eb201a14c5928d8364d465fd80d90c0e0cea3bcfbfc0a802d5bbf405576232ab253c3b1339351ddb013be15b
       JWT_ACCESS_EXPIRES_IN: 15m
       JWT_REFRESH_SECRET: 1b970da176ef1966ffb449cef4fd62dd162b0556a9dbfb2afe103e9751994ed571ea693cd003b0c64b4d52fd835f628a875593aff034f141bc5d59953289145d
       JWT_REFRESH_EXPIRES_IN: 7d
 
-      CHOKIDAR_USEPOLLING: "true"
-
     command: npm run dev
-    
+
     depends_on:
       - mysql
 
@@ -40,18 +59,26 @@ services:
     restart: unless-stopped
 
     environment:
+      # Root user (DB admin only, never for app code)
       MYSQL_ROOT_PASSWORD: StrongPassword!123
+
+      # Application database
       MYSQL_DATABASE: egov_db
+
+      # Application user (what your backend will use)
       MYSQL_USER: egov_user
       MYSQL_PASSWORD: Password!123
 
     ports:
+      # Expose MySQL for local development / DB tools
       - "3306:3306"
 
     volumes:
+      # Persistent database storage
       - egov_mysql_data:/var/lib/mysql
 
     command:
+      # Proper Unicode support (important for names, regions, etc.)
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
 
