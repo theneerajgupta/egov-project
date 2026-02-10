@@ -24,8 +24,6 @@ export async function RegisterController(
   const connection = await databasePool.getConnection();
 
   try {
-    console.log(req.body);
-
     const CheckUserExistSQL: string = `
       SELECT id
       FROM user

@@ -1,8 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 import { errorHandler, AppError } from './middlewares/error.middleware';
+
+import { requireAuth } from './middlewares/requireAuth.middleware';
 
 const app = express();
 
@@ -14,9 +17,10 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 /* ---------- routes ---------- */
-app.use('/health', HealthRouter);
+app.use('/health', requireAuth, HealthRouter);
 app.use('/auth', AuthRouter);
 app.use('/api', (_req, res) => {
   res.status(200).json({ message: 'api under development' });
