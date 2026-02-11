@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import { db } from '@/lib/db';
-import { RegisterSchema } from '@/schemas/register.schema';
+import { AuthRegisterSchema } from '@/schemas/auth/register.auth.schema';
 import { BadRequestError, ConflictError } from '@/errors/client.error';
 import { errorToResponse } from '@/lib/http/error-response';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
   try {
     /* ------------------ validate input ------------------ */
-    const body = RegisterSchema.parse(await req.json());
+    const body = AuthRegisterSchema.parse(await req.json());
 
     /* ------------------ check user existence ------------------ */
     const [existingUsers] = await db.execute<CheckUserExistQueryRow[]>(
