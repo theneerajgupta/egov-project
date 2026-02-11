@@ -1,3 +1,5 @@
+CREATE USER IF NOT EXISTS 'egov_user'@'%' IDENTIFIED BY 'Password!123';
+
 USE egov_db;
 
 DROP TABLE IF EXISTS egov_db.sessions;
