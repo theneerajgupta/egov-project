@@ -1,28 +1,35 @@
-import { ReactNode } from 'react';
-import './globals.css';
 import type { Metadata } from 'next';
-import { ExternalNavbar } from '@/components/ui/navbar/External.navbar';
-import { ExternalAccessibilityBar } from '@/components/ui/AccessibilityBar/External.accessibilityBar';
-import ExternalFooter from '@/components/ui/footer/External.footer';
+import { ReactNode } from 'react';
+import { Geist, Geist_Mono } from 'next/font/google';
+import '@/app/globals.css';
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
-  title: 'DG4Modules',
+  title: {
+    default: 'DG4Modules',
+    template: '%s | DG4Modules',
+  },
   description: 'Internal application management system.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang='en'>
-      <body className='flex flex-col bg-white text-gray-900'>
-        {/* Header + Content wrapper */}
-        <div className='flex flex-col min-h-screen'>
-          <ExternalAccessibilityBar />
-          <ExternalNavbar />
-
-          <main className='flex flex-col flex-1'>{children}</main>
-        </div>
-
-        <ExternalFooter />
+    <html
+      lang='en'
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className='flex flex-row min-h-screen max-w-screen overflow-x-hidden font-sans bg-background text-foreground antialiased'>
+        {children}
       </body>
     </html>
   );
