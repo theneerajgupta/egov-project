@@ -7,27 +7,35 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
+  --color-background: #f9f9f9;
+  --color-blue-light: #7fc8f8;
+  --color-blue-medium: #5aa9e6;
+  --color-blue-dark: #18649f;
+  --color-blue-black: #0b2e49;
+
   --color-one: #6b4b3e;
   --color-two: #c49e85;
   --color-three: #ffd6af;
   --color-four: #f8f4f9;
 
-  --color-five-1: #8cbcb9;
-  --color-five-2: #619b8a;
+  --color-five-light: #cde0da;
+  --color-five-medium: #619b8a;
+  --color-five-dark: #2c473f;
 
-  --color-six-1: #79addc;
-  --color-six-2: #4381c1;
+  --color-six-light: #79addc;
+  --color-six-medium: #4381c1;
+  --color-six-dark: #15293f;
 }
 
 :root {
-  --background: var(--color-four);
-  --foreground: var(--color-one);
+  --background: var(--color-background);
+  --foreground: var(--blue-medium);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--color-background);
+    --foreground: var(--blue-medium);
   }
 }
 
