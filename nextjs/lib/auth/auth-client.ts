@@ -13,7 +13,7 @@ export interface LoginResponse {
   login_logged_at: number;
 }
 
-export async function login(email: string, password: string) {
+export async function Login(email: string, password: string) {
   const res = await fetch('/api/auth/login', {
     method: 'POST',
     headers: {

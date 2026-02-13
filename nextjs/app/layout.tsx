@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '@/app/globals.css';
+import AccessibilityBar from '@/components/layout/AccessibilityBar';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,7 +29,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body className='flex flex-row min-h-screen max-w-screen overflow-x-hidden font-sans bg-background text-foreground antialiased'>
+      <body className='flex flex-col min-h-screen max-w-screen overflow-x-hidden font-sans bg-background text-foreground antialiased'>
+        <AccessibilityBar />
         {children}
       </body>
     </html>
